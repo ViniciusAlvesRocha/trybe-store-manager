@@ -1,4 +1,5 @@
 const Product = require('../services/Product');
+const modelProducts = require('../models/Product');
 
 const validateName = (req, res, next) => {
   const { name } = req.body;
@@ -55,9 +56,32 @@ const create = async (req, res) => {
   }).then((result) => res.status(201).json(result));
 };
 
+const listAll = async (_req, res) => {
+  console.log('dentro de listAll');
+  const products = await modelProducts.listAll();
+  console.log(products);
+  res.status(200).json(products);
+};
+
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+  const product = await modelProducts.getProductById(id);
+  if (!product) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+  res.status(200).json(product);
+};
+
 module.exports = {
   create,
   validateName,
   verifyProductExists,
   validateQuantify,
+  listAll,
+  getProductById,
 };
