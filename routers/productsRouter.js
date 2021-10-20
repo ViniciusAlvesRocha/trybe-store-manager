@@ -13,4 +13,9 @@ productsRouter.post('/',
   Product.verifyProductExists,
   Product.create);
 
+productsRouter.put('/:id',
+  Product.validateName,
+  Product.validateQuantify,
+  Product.update);
+
 module.exports = productsRouter;

@@ -56,6 +56,13 @@ const create = async (req, res) => {
   }).then((result) => res.status(201).json(result));
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const product = await modelProducts.update(id, name, quantity);
+  res.status(200).json(product.value);
+};
+
 const listAll = async (_req, res) => {
   console.log('dentro de listAll');
   const products = await modelProducts.listAll();
@@ -84,4 +91,5 @@ module.exports = {
   validateQuantify,
   listAll,
   getProductById,
+  update,
 };
