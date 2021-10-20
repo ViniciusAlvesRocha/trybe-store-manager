@@ -18,4 +18,8 @@ productsRouter.put('/:id',
   Product.validateQuantify,
   Product.update);
 
+productsRouter.delete('/:id',
+  Product.validateId,
+  Product.deleteProduct);
+
 module.exports = productsRouter;

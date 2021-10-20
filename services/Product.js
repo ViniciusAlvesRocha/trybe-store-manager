@@ -24,10 +24,35 @@ const varifyQuantifyIsNumber = (quantity) => {
 
 const create = (product) => Product.create(product);
 
+const validateId = (res, id) => {
+  if (id.length < 16) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+};
+
+const deleteProduct = async (id, res) => {
+  if (!await Product.deleteProduct(id)) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        messege: 'Worng id format',
+      },
+  });
+  }
+  res.status(200).json();
+};
+
 module.exports = {
   create,
   validateName,
   verifyProductExists,
   validateQuantify,
   varifyQuantifyIsNumber,
+  deleteProduct,
+  validateId,
 };

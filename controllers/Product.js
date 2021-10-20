@@ -84,6 +84,17 @@ const getProductById = async (req, res) => {
   res.status(200).json(product);
 };
 
+const validateId = (req, res, next) => {
+  const { id } = req.params;
+  Product.validateId(res, id);
+  next();
+};
+
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  await Product.deleteProduct(id, res);
+};
+
 module.exports = {
   create,
   validateName,
@@ -92,4 +103,6 @@ module.exports = {
   listAll,
   getProductById,
   update,
+  deleteProduct,
+  validateId,
 };
