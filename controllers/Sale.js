@@ -43,33 +43,30 @@ const create = async (req, res) => {
   });
 };
 
+const listAll = async (_req, res) => {
+  const sales = await Sale.listAll();
+  res.status(200).json({
+    sales: [
+      ...sales,
+    ],
+  });
+};
+
+const getSaleById = async (req, res) => {
+  const { id } = req.params;
+  const sale = await Sale.getSaleById(id);
+  if (sale.err) {
+    return res.status(404).json(sale);
+  }
+  res.status(200).json(sale);
+};
+
 /*
 const update = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
   const product = await modelProducts.update(id, name, quantity);
   res.status(200).json(product.value);
-};
-
-const listAll = async (_req, res) => {
-  console.log('dentro de listAll');
-  const products = await modelProducts.listAll();
-  console.log(products);
-  res.status(200).json(products);
-};
-
-const getProductById = async (req, res) => {
-  const { id } = req.params;
-  const product = await modelProducts.getProductById(id);
-  if (!product) {
-    return res.status(422).json({
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    });
-  }
-  res.status(200).json(product);
 };
 
 const validateId = (req, res, next) => {
@@ -88,8 +85,8 @@ module.exports = {
   create,
   validateProductIdAndQuantity,
   verifyProductExists,
-  // listAll,
-  // getProductById,
+  listAll,
+  getSaleById,
   // update,
   // deleteProduct,
   // validateId,

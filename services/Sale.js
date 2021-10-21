@@ -6,6 +6,23 @@ const validateProductIdAndQuantity = (res, productId, quantity) => {
   return true;
 };
 
+const listAll = () => modelSales.listAll();
+
+const getSaleById = async (idsale) => {
+  const sale = await modelSales.getSaleById(idsale);
+  if (!sale) {
+    return ({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    });
+  }
+  return sale;
+};
+
 module.exports = {
   validateProductIdAndQuantity,
+  listAll,
+  getSaleById,
 };

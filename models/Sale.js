@@ -11,6 +11,24 @@ const create = async (sales) => {
     return register.insertedId;
 };
 
+const listAll = async () => {
+  const db = await connection();
+  const sales = await db.collection('sales').find().toArray();
+  return sales;
+};
+
+const getSaleById = async (idsale) => {
+  const db = await connection();
+  try {
+    const sale = await db.collection('sales').findOne({ _id: ObjectId(idsale) });
+    return sale;
+  } catch (_e) {
+    return false;
+  }
+};
+
 module.exports = {
   create,
+  listAll,
+  getSaleById,
 };
