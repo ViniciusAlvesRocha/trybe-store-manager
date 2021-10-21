@@ -17,16 +17,22 @@ const verifyProductExists = async (req, res, next) => {
 const validateProductIdAndQuantity = (req, res, next) => {
   const sales = req.body;
   console.log(sales);
+  let verify = null;
   sales.forEach(({ productId, quantity }) => {
-    console.log(productId, quantity);
-    Sale.validateProductIdAndQuantity(res, productId, quantity);
+    // console.log(productId, quantity);
+    verify = Sale.validateProductIdAndQuantity(res, productId, quantity);
   });
+  console.log(verify);
+  if (!verify) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
   next();
 };
-
-/* { "productId": "sakjdhfksajhdfshdfkjsadf", "quantity": 20 },
-  { "productId": "iwydepqwfjesfkffkfkkfkfk", "quantity": 30 }
-*/
 
 const create = async (req, res) => {
   const sales = req.body;
