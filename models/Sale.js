@@ -27,8 +27,19 @@ const getSaleById = async (idsale) => {
   }
 };
 
+const update = async (id, sale) => {
+  const db = await connection();
+  const saleUpdated = await db.collection('sales').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { itensSold: [sale] } },
+    { returnOriginal: false },
+  );
+  return saleUpdated.value;
+};
+
 module.exports = {
   create,
   listAll,
   getSaleById,
+  update,
 };

@@ -21,8 +21,35 @@ const getSaleById = async (idsale) => {
   return sale;
 };
 
+const verifyIdAndQuantitySale = ({ productId, quantity }) => {
+  if (productId.length < 16 || quantity <= 0 || typeof quantity !== 'number') {
+    return ({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
+  return true;
+};
+
+const update = async (id, sale) => {
+  const saleUpdated = await modelSales.update(id, sale);
+  if (!saleUpdated) {
+    return ({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
+  return saleUpdated;
+};
+
 module.exports = {
   validateProductIdAndQuantity,
   listAll,
   getSaleById,
+  verifyIdAndQuantitySale,
+  update,
 };

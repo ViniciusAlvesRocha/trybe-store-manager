@@ -61,14 +61,26 @@ const getSaleById = async (req, res) => {
   res.status(200).json(sale);
 };
 
-/*
-const update = async (req, res) => {
-  const { id } = req.params;
-  const { name, quantity } = req.body;
-  const product = await modelProducts.update(id, name, quantity);
-  res.status(200).json(product.value);
+const verifyIdAndQuantitySale = (req, res, next) => {
+  const [sale] = req.body;
+  console.log(sale);
+  const idAndQuantityValidated = Sale.verifyIdAndQuantitySale(sale);
+  console.log(idAndQuantityValidated);
+ 
+  if (idAndQuantityValidated.err) return res.status(422).json(idAndQuantityValidated);
+  next();
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const [sale] = req.body;
+  const saleUpdated = await Sale.update(id, sale);
+  console.log(saleUpdated);
+  if (saleUpdated.err) return res.status(422).json(saleUpdated);
+  res.status(200).json(saleUpdated);
+};
+
+/*
 const validateId = (req, res, next) => {
   const { id } = req.params;
   Product.validateId(res, id);
@@ -87,7 +99,6 @@ module.exports = {
   verifyProductExists,
   listAll,
   getSaleById,
-  // update,
-  // deleteProduct,
-  // validateId,
+  update,
+  verifyIdAndQuantitySale,
 };

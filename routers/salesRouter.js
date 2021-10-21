@@ -9,6 +9,10 @@ controllerSales.validateProductIdAndQuantity, controllerSales.create);
 
 router.get('/:id', controllerSales.getSaleById);
 
+router.put('/:id',
+  controllerSales.verifyIdAndQuantitySale,
+  controllerSales.update);
+
 router.get('/', controllerSales.listAll);
 
 module.exports = router;
