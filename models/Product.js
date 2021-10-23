@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 // const connect = require('mongodb');
-const connection = require('./connection');
+const connection = require('../connection');
 
 const create = (product) =>
   connection()
