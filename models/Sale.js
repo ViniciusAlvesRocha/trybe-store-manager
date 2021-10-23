@@ -7,7 +7,7 @@ const create = async (sales) => {
     itensSold: [
       ...sales,
     ] });
-
+  
     return register.insertedId;
 };
 

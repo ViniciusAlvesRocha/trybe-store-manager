@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const Sale = require('../services/Sale');
 const modelSales = require('../models/Sale');
 
@@ -38,6 +37,7 @@ const validateProductIdAndQuantity = (req, res, next) => {
 const create = async (req, res) => {
   const sales = req.body;
   const insertedSalesId = await modelSales.create(sales);
+
   return res.status(200).json({
     _id: insertedSalesId,
     itensSold: sales,
@@ -81,22 +81,6 @@ const update = async (req, res) => {
   res.status(200).json(saleUpdated);
 };
 
-const validateIdSale = (req, res, next) => {
-  const { id } = req.params;
-  try {
-    ObjectId(id);
-  } catch (err) {
-    console.log(err);
-    /* return res.status(422).json({
-      err: {
-        code: 'invalid_data',
-        message: 'Worng sale ID format',
-      },
-    }); */
-  }
-  // next();
-};
-
 const deleteSale = async (req, res) => {
   const { id } = req.params;
   const sale = await Sale.getSaleById(id);
@@ -107,7 +91,6 @@ const deleteSale = async (req, res) => {
 };
 
 module.exports = {
-  validateIdSale,
   create,
   validateProductIdAndQuantity,
   verifyProductExists,
