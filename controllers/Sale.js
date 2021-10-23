@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const Sale = require('../services/Sale');
 const modelSales = require('../models/Sale');
 
@@ -80,20 +81,33 @@ const update = async (req, res) => {
   res.status(200).json(saleUpdated);
 };
 
-/*
-const validateId = (req, res, next) => {
+const validateIdSale = (req, res, next) => {
   const { id } = req.params;
-  Product.validateId(res, id);
-  next();
+  try {
+    ObjectId(id);
+  } catch (err) {
+    console.log(err);
+    /* return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Worng sale ID format',
+      },
+    }); */
+  }
+  // next();
 };
 
-const deleteProduct = async (req, res) => {
+const deleteSale = async (req, res) => {
   const { id } = req.params;
-  await Product.deleteProduct(id, res);
+  const sale = await Sale.getSaleById(id);
+  const deletedSale = await Sale.deleteSale(id);
+  return deletedSale.err
+   ? res.status(422).json(deletedSale)
+   : res.status(200).json(sale);
 };
-*/
 
 module.exports = {
+  validateIdSale,
   create,
   validateProductIdAndQuantity,
   verifyProductExists,
@@ -101,4 +115,5 @@ module.exports = {
   getSaleById,
   update,
   verifyIdAndQuantitySale,
+  deleteSale,
 };

@@ -46,10 +46,24 @@ const update = async (id, sale) => {
   return saleUpdated;
 };
 
+const deleteSale = async (id) => {
+  const deletedCount = await modelSales.deleteSale(id);
+  console.log(deletedCount);
+  return deletedCount.value
+    ? true
+    : {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    },
+  };
+};
+
 module.exports = {
   validateProductIdAndQuantity,
   listAll,
   getSaleById,
   verifyIdAndQuantitySale,
   update,
+  deleteSale,
 };
